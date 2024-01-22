@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
+import 'communication.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -83,6 +85,10 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: _uploadImage,
               child: Text('Upload Image'),
             ),
+            ElevatedButton(
+              onPressed: () => _initRoom(FirebaseFirestore.instance),
+              child: Text('initroom'),
+            ),
             SizedBox(height: 20.0),
             StreamBuilder(
               stream: _firestore.collection('images').snapshots(),
@@ -110,6 +116,16 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void _initRoom(FirebaseFirestore firestore){
+    Random rng = Random();
+    int code = rng.nextInt(100) + rng.nextInt(9)*1000; //generate a fix 4 digit num
+    Map<String, dynamic> players = {
+      'name1' : '',
+      'ready1' : '',
+    };
+    firestore.collection(code.toString()).add(players);
   }
 
   Future<void> _pickImage() async {
