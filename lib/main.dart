@@ -121,11 +121,19 @@ class _MyHomePageState extends State<MyHomePage> {
   void _initRoom(FirebaseFirestore firestore){
     Random rng = Random();
     int code = rng.nextInt(100) + rng.nextInt(9)*1000; //generate a fix 4 digit num
-    Map<String, dynamic> players = {
-      'name1' : '',
-      'ready1' : '',
+    String room = code.toString();
+    Map<String, dynamic> static = {
+      'images' : [],
+      'order' : [],
+      'owner' : []
     };
-    firestore.collection(code.toString()).add(players);
+    Map<String, dynamic> state = {
+      'round' : 0,
+      'players' : [],
+    };
+    firestore.collection(room).doc("static").set(static).onError((e, _) => print("Error writing document: $e"));;
+    firestore.collection(room).doc("state").set(state).onError((e, _) => print("Error writing document: $e"));;
+
   }
 
   Future<void> _pickImage() async {
