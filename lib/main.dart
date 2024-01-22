@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Photo Roulette",
-        home: HomePage(),
-        theme: mainTheme);
+        home: const HomePage(),
+        theme: mainTheme
+    );
   }
 }

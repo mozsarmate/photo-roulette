@@ -8,28 +8,26 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/main_background.jpg"),
             fit: BoxFit.cover
           )
         ),
-          child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Button(text: "Join Game", isPrimary: true),
-                        Button(text: "Create Game", isPrimary: false)
-                      ]
-                  )
-              )
-
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Button(text: "Join Game", isPrimary: true),
+                Button(text: "Create Game", isPrimary: false)
+              ]
+            )
           )
+        )
       )
-
     );
   }
 }
