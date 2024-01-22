@@ -23,7 +23,7 @@ class Button extends StatelessWidget {
         ? Theme.of(context).colorScheme.primary
         : Theme.of(context).colorScheme.secondary;
     return GestureDetector(
-      onTap: action == null ? (){} : action!(),
+      onTap: action!(),
       child: Container(
           margin: EdgeInsets.all(padding),
           width: 150,
