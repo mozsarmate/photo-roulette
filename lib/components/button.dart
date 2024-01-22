@@ -7,14 +7,15 @@ class Button extends StatelessWidget {
   final String text;
   final bool isPrimary;
   final double padding;
-  final Function? onTap;
+  final Function? action;
 
   const Button(
       {super.key,
       required this.text,
       required this.isPrimary,
       this.padding = 10.0,
-      this.onTap});
+      this.action,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class Button extends StatelessWidget {
         ? Theme.of(context).colorScheme.primary
         : Theme.of(context).colorScheme.secondary;
     return GestureDetector(
-      onTap: onTap!(),
+      onTap: action == null ? (){} : action!(),
       child: Container(
           margin: EdgeInsets.all(padding),
           width: 150,
