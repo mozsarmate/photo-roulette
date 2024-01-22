@@ -26,7 +26,7 @@ class PlayerWidget extends StatelessWidget {
         margin: EdgeInsets.all(10),
         width: 250,
         decoration: BoxDecoration(
-            color: Color(0x30FFFFFF), borderRadius: BorderRadius.circular(10)),
+            color: Color(0xA0404040), borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: <Widget>[
             Image(image: AssetImage(avatarPath)),
