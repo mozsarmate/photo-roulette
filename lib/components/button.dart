@@ -1,17 +1,35 @@
+// import "dart:html";
+
 import "package:flutter/material.dart";
+// import ="package:flutter_svg/flutter_svg.dart";
 
 class Button extends StatelessWidget {
-  const Button({super.key});
+  final String text;
+  final bool isPrimary;
+  final double padding;
+
+  const Button(
+      {super.key,
+      required this.text,
+      required this.isPrimary,
+      this.padding = 10.0});
 
   @override
   Widget build(BuildContext context) {
+    Color bgColor = isPrimary
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.secondary;
     return Container(
-        margin: EdgeInsets.all(100),
+        margin: EdgeInsets.all(padding),
         width: 150,
         height: 50,
         decoration: BoxDecoration(
-          color: Color(0xFF1A36B9),
+          color: bgColor,
           borderRadius: BorderRadius.circular(20),
-        ));
+        ),
+        child: Center(
+            child: Text(text)
+        )
+    );
   }
 }
