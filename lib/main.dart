@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final ImagePicker _imagePicker = ImagePicker();
-  final dbComunicator db = new dbComunicator();
+  final DbCommunicator db = new DbCommunicator();
 
   File? _image;
 
