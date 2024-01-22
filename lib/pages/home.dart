@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-
+import "package:photo_roulette/themes/themes.dart";
 import "./lobby.dart";
 
 class HomePage extends StatelessWidget {
@@ -7,6 +7,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color primary=Theme.of(context).colorScheme.primary;
+    Color secondary=Theme.of(context).colorScheme.secondary;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -52,11 +54,29 @@ class HomePage extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    Container(
+                      width:300,height:65,
+                      decoration: ShapeDecoration(shape: RoundedRectangleBorder(side: const BorderSide(color: colorPrimary),borderRadius: BorderRadius.circular(20)),color:Colors.white),
+                      child: TextField(
+                        style: TextStyle(fontSize: 30),
+                        textAlign: TextAlign.center,
+                        textAlignVertical: TextAlignVertical.top,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+
+                        ),
+                      ),
+                    ),
                     ElevatedButton(
-                      child: const Text("Join Game"),
+                      style: ButtonStyle(
+                        fixedSize: MaterialStateProperty.resolveWith((states) => const Size(300,50)),
+                        shape: MaterialStateProperty.resolveWith((states) => RoundedRectangleBorder(side: const BorderSide(color: Color(0x00000000)),borderRadius: BorderRadius.circular(20))),
+                        backgroundColor: MaterialStateProperty.resolveWith((states) => colorSecondary),
+                      ),
+                      child: const Text("Join Game",style: TextStyle(color:colorPrimary),),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -65,7 +85,12 @@ class HomePage extends StatelessWidget {
                       }
                     ),
                     ElevatedButton(
-                      child: const Text("Create Game"),
+                      style: ButtonStyle(
+                        fixedSize: MaterialStateProperty.resolveWith((states) => const Size(300,50)),
+                        shape: MaterialStateProperty.resolveWith((states) => RoundedRectangleBorder(side: const BorderSide(color: Color(0x00000000)),borderRadius: BorderRadius.circular(20))),
+                        backgroundColor: MaterialStateProperty.resolveWith((states) => colorPrimary),
+                      ),
+                      child: const Text("Create Game",style: TextStyle(color:colorSecondary),),
                       onPressed: (){
                         Navigator.push(
                           context,
