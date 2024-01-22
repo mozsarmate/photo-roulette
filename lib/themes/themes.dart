@@ -17,4 +17,5 @@ ThemeData mainTheme = ThemeData(
         background: Colors.black,
         onBackground: Colors.white,
         surface: Colors.black,
-        onSurface: Colors.white));
+        onSurface: Colors.white),
+    fontFamily: "Kanit");
