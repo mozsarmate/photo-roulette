@@ -1,15 +1,15 @@
 
 import 'package:flutter/material.dart';
 
-class VotePage extends StatefulWidget {
-  const VotePage({required this.names, super.key});
+class VotePanel extends StatefulWidget {
+  const VotePanel({required this.names, super.key});
   final List<String> names;
   @override
-  State<StatefulWidget> createState() => _VotePageState(names);
+  State<StatefulWidget> createState() => _VotePanelState(names);
 }
 
-class _VotePageState extends State<VotePage> {
-  _VotePageState(this.names);
+class _VotePanelState extends State<VotePanel> {
+  _VotePanelState(this.names);
   List<String> names;
   var vote = -1;
   @override
