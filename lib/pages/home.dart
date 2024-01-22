@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "../components/button.dart";
+import "./lobby.dart";
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -18,11 +19,47 @@ class HomePage extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Container(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Button(text: "Join Game", isPrimary: true),
-                Button(text: "Create Game", isPrimary: false)
+                ElevatedButton(
+                  child: const Text("Join Game"),
+                  onPressed: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=>const LobbyScreen(gamePin: "123456",key: null))
+                    );
+                  }
+                ),
+                /*Button(
+                  text: "Join Game",
+                  isPrimary: true,
+                  action: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=>const LobbyScreen(gamePin: "123456",key: null))
+                    );
+                  }
+                ),*/
+                ElevatedButton(
+                    child: const Text("Create Game"),
+                    onPressed: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context)=>const LobbyScreen(gamePin: "123456",key: null))
+                      );
+                    }
+                ),
+                /*Button(
+                  text: "Create Game",
+                  isPrimary: false,
+                  action: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=>const LobbyScreen(gamePin: "123456",key: null))
+                    );
+                  },
+                )*/
               ]
             )
           )
