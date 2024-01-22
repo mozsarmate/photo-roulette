@@ -9,21 +9,37 @@ class LeaderBoardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // List<Player> players = [];
     List<Widget> playerWidgets = [
-      PlayerWidget(name: "bujdi", points: 10, lastVote: "blatin", lastVoteWasCorrect: true, avatarPath: "assets/images/cross.png"),
-      PlayerWidget(name: "blatin", points: 2, lastVote: "bujdi", lastVoteWasCorrect: false, avatarPath: "assets/images/cross.png")
+      PlayerWidget(
+          name: "eotvos",
+          points: 2,
+          lastVote: "blatin",
+          lastVoteWasCorrect: true,
+          avatarPath: "assets/images/avatar_example.png"),
+      PlayerWidget(
+          name: "blatin",
+          points: 2,
+          lastVote: "bujdi",
+          lastVoteWasCorrect: false,
+          avatarPath: "assets/images/avatar_example.png"),
+      PlayerWidget(
+          name: "brikk",
+          points: 2,
+          lastVote: "mate",
+          lastVoteWasCorrect: false,
+          avatarPath: "assets/images/avatar_example.png"),
+      PlayerWidget(
+          name: "bujdi",
+          points: 10,
+          lastVote: "blatin",
+          lastVoteWasCorrect: true,
+          avatarPath: "assets/images/avatar_example.png")
     ];
     return Scaffold(
-      body: Center(
-        child: Row(
-             children: <Widget>[Container(
-                // margin: EdgeInsets.all(20),
-                child: Column(
-                    children: playerWidgets
-                )
-            )]
-        )
-      )
-    );
+        backgroundColor: Color(0xFF1A36B9),
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                      children: playerWidgets))
+            );
   }
 }
-
