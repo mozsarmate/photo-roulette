@@ -41,3 +41,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Exclude Firebase IDE-specific file
+*/firebase_app_ide_file.json
+
+# Exclude Firebase configuration file
+firebase_options.dart
+
+*.plist
