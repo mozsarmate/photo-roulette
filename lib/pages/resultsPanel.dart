@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_roulette/components/playerWidget.dart';
 
-class LeaderBoardPage extends StatelessWidget {
-  const LeaderBoardPage({super.key});
+class ResultsPanel extends StatelessWidget {
+  const ResultsPanel({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +34,9 @@ class LeaderBoardPage extends StatelessWidget {
           lastVoteWasCorrect: true,
           avatarPath: "assets/images/avatar_example.png")
     ];
-    return Scaffold(
-        backgroundColor: Color(0xFF1A36B9),
-        body: Center(
+    return Container(
+        color: Color(0x90404040),
+        child: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                       children: playerWidgets))

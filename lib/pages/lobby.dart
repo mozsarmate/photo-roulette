@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo_roulette/pages/resultsPanel.dart';
 
 class LobbyScreen extends StatefulWidget{
   //const LobbyScreen({required this.gamePin, super.key});
@@ -34,6 +35,7 @@ class _LobbyState extends State<LobbyScreen>{
                   fit: BoxFit.cover
               )
           ),
+          child: ResultsPanel()
 
         )
     );

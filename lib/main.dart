@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:photo_roulette/pages/home.dart';
-import 'package:photo_roulette/pages/leaderboard.dart';
+import 'package:photo_roulette/pages/resultsPanel.dart';
 import 'package:photo_roulette/themes/themes.dart';
 
 void main() {
@@ -21,8 +21,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Photo Roulette",
         home: const HomePage(),
-        //WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        // home: const LeaderBoardPage(),
         theme: mainTheme);
   }
 }
