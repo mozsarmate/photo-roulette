@@ -10,8 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import 'firebase_options.dart';
 import 'communication.dart';
+import 'firebase_options.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final ImagePicker _imagePicker = ImagePicker();
+  final dbComunicator db = new dbComunicator();
 
   File? _image;
 
@@ -86,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Upload Image'),
             ),
             ElevatedButton(
-              onPressed: () => _initRoom(FirebaseFirestore.instance),
+              onPressed: () => this.db.initRoom(_firestore),
               child: Text('initroom'),
             ),
             SizedBox(height: 20.0),
@@ -116,24 +118,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-  }
-
-  void _initRoom(FirebaseFirestore firestore){
-    Random rng = Random();
-    int code = rng.nextInt(100) + rng.nextInt(9)*1000; //generate a fix 4 digit num
-    String room = code.toString();
-    Map<String, dynamic> static = {
-      'images' : [],
-      'order' : [],
-      'owner' : []
-    };
-    Map<String, dynamic> state = {
-      'round' : 0,
-      'players' : [],
-    };
-    firestore.collection(room).doc("static").set(static).onError((e, _) => print("Error writing document: $e"));;
-    firestore.collection(room).doc("state").set(state).onError((e, _) => print("Error writing document: $e"));;
-
   }
 
   Future<void> _pickImage() async {
