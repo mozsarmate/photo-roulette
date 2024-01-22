@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
+import 'package:photo_roulette/player.dart';
+
 class DbCommunicator {
   DbCommunicator();
 
@@ -66,6 +68,28 @@ class DbCommunicator {
     }
   }
 
+  Future<List<Player>?> getResults(FirebaseFirestore firestore, String roomCode) async {
+    try {
+      DocumentSnapshot docSnapshot = await firestore.collection(roomCode).doc("state").get();
+      if (docSnapshot.exists && docSnapshot.data() != null) {
+        var data = docSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('players') && data['players'] is List) {
+          List<Player> players = data['players'];
+          players.sort((a, b) => b.points.compareTo(a.points));
+          return players;
+        } else {
+          print("No players data found in the room $roomCode");
+          return null;
+        }
+      } else {
+        print("State document does not exist in room $roomCode");
+        return null;
+      }
+    } catch (e) {
+      print("Error fetching players data: $e");
+      return null;
+    }
+  }
 
 
 
