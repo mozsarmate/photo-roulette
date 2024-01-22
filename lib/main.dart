@@ -1,18 +1,19 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  //WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -31,11 +32,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Image Upload Demo',
+      title: 'Images Upload Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -56,7 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final ImagePicker _imagePicker = ImagePicker();
 
-  File? _image;
+  final numOfImagesWanted = 10;
+
+  List<AssetEntity> images = [];
 
   @override
   Widget build(BuildContext context) {
@@ -65,86 +67,55 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Image Upload Demo'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _image != null
-                ? Image.file(
-              _image!,
-              height: 150.0,
-            )
-                : Text('toljad fel elobb a kepet tesom'),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: _pickImage,
-              child: Text('Pick Image'),
-            ),
-            ElevatedButton(
-              onPressed: _uploadImage,
-              child: Text('Upload Image'),
-            ),
-            SizedBox(height: 20.0),
-            StreamBuilder(
-              stream: _firestore.collection('images').snapshots(),
-              builder: (context, snap) {
-                if (!snap.hasData) {
-                  return CircularProgressIndicator();
-                }
-
-                var docs = snap.data!.docs;
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: docs.length,
-                    itemBuilder: (context, index) {
-                      var imageUrl = docs[index]['url'];
-                      return Image.network(
-                        imageUrl,
-                        height: 100.0,
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          ElevatedButton(
+            onPressed: _pickRandomImage,
+            child: Text('Pick Random Images'),
+          ),
+          /* ElevatedButton(
+            onPressed: _uploadImage,
+            child: Text('Upload Image'),
+          ),*/
+          SizedBox(height: 20.0),
+          ListView.builder(
+            itemCount: images.length,
+            itemBuilder: (_, index) {
+              return AssetThumbnail(
+                image: images[index],
+              );
+            },
+          )
+        ]),
       ),
     );
   }
 
-  Future<void> _pickImage() async {
-    final pickedFile = await _imagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected');
+  Future<void> _pickRandomImage() async {
+    PhotoManager.requestPermissionExtend().then((PermissionState state) async {
+      if (state.isAuth) {
+        images = await PhotoManager.getAssetListRange(start: 0, end: 500);
+        setState(() {});
       }
     });
   }
-
-  Future<void> _uploadImage() async{
-    if (_image == null){
-      return;
-    }
-    try{
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference storageReference = _storage.ref().child('images/$fileName');
-      UploadTask uploadTask = storageReference.putFile(_image!);
-      await uploadTask;
-      // Get download URL
-      String downloadURL = await storageReference.getDownloadURL();
-
-      // Save image reference in Firestore
-      await _firestore.collection('images').add({
-        'url': downloadURL,
-        'timestamp': FieldValue.serverTimestamp(),
-      });
-    } catch (error) {
-      print('Error uploading image: $error');
-    }
-  }
 }
 
+class AssetThumbnail extends StatelessWidget {
+  const AssetThumbnail({
+    super.key,
+    required this.image,
+  });
 
+  final AssetEntity image;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Uint8List>(
+        future: image.thumbnailData.then((value) => value!),
+        builder: (_, snapshot) {
+          final bytes = snapshot.data;
+          if (bytes == null) return const CircularProgressIndicator();
+          return Image.memory(bytes, fit: BoxFit.cover);
+        });
+  }
+}

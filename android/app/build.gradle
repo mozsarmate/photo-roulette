@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "hu.mate.photoroulette.photo_roulette"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -45,7 +45,7 @@ android {
         applicationId "hu.mate.photoroulette.photo_roulette"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
+        minSdkVersion 30
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

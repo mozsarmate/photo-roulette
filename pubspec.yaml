@@ -42,6 +42,11 @@ dependencies:
   firebase_storage: ^11.6.0
   image_picker: ^1.0.7
   firebase_app_check: ^0.2.1+8
+  gallery_saver: ^2.3.2
+  photo_manager: ^2.8.1
+
+dependency_overrides:
+  photo_manager: ^3.0.0-dev.2
 
 dev_dependencies:
   flutter_test:
