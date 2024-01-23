@@ -61,7 +61,7 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Button(action: _pickRandomImage, text: "Reroll images", isPrimary: false),
-                Button(text: "Ok", isPrimary: true)
+                Button(text: "Approve", isPrimary: true)
               ],
             ),
             SizedBox(height: 70)
