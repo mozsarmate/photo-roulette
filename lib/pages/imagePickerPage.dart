@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -7,6 +9,7 @@ import 'package:photo_manager/photo_manager.dart';
 
 import '../components/assetThumbnail.dart';
 import '../components/button.dart';
+import '../models/communication.dart';
 
 class ImagePickerPage extends StatefulWidget {
   const ImagePickerPage({super.key});
@@ -21,6 +24,8 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
   final maxAgeOfImage = 500;
   final numOfImagesWanted = 16;
   var numOfImagesGot = 2;
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +65,10 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Button(action: _pickRandomImage, text: "Reroll images", isPrimary: false),
-                Button(text: "Approve", isPrimary: true)
+                isLoading ?
+                  CircularProgressIndicator() :
+                  Button(action: _pickRandomImage, text: "Reroll images", isPrimary: false),
+                Button(action: _uploadImages, text: "Approve", isPrimary: true)
               ],
             ),
             SizedBox(height: 70)
@@ -81,8 +88,28 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
       images = images.take(numOfImagesWanted).toList();
       setState(() {});
     } else {
-      // todo add error handling
       print("Permission not granted");
     }
+  }
+
+  Future<void> _uploadImages() async {
+    if(numOfImagesGot < numOfImagesWanted) return null;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final DbCommunicator db = new DbCommunicator();
+    final FirebaseFirestore f = FirebaseFirestore.instance;
+    final FirebaseStorage s = FirebaseStorage.instance;
+
+    for(int i = 0; i < 3; i++) {
+      db.uploadImage(f, s, images[i], "2067", "mate");
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+
   }
 }

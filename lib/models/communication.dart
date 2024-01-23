@@ -1,8 +1,11 @@
 import 'dart:core';
 import 'dart:core';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'dart:math';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:photo_roulette/models/player.dart';
 
@@ -203,4 +206,31 @@ class DbCommunicator {
       return null; // Consider using 'Future.error(e)' to propagate the error.
     }
   }
+
+
+  Future<void> uploadImage(FirebaseFirestore firestore, FirebaseStorage storage, AssetEntity image, String gamePin, String userName) async{
+    try{
+      File? imageFile = await image.file;
+      if(imageFile == null) {
+        print("Error uploading image: imageFile is null");
+        return;
+      }
+
+      String fileName = gamePin+image.id+'.jpg';
+      Reference storageReference = storage.ref().child('images/$fileName');
+      UploadTask uploadTask = storageReference.putFile(imageFile);
+      await uploadTask;
+      String downloadURL = await storageReference.getDownloadURL();
+
+      await firestore.collection(gamePin).doc('static').collection('images').add({
+        "url": downloadURL,
+        "commiter": userName,
+        "img-id": 12
+      });
+    } catch (error) {
+      print('Error uploading image: $error');
+    }
+  }
+
+
 }
