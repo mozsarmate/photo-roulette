@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 import '../components/assetThumbnail.dart';
+import '../components/button.dart';
 
 class ImagePickerPage extends StatefulWidget {
   const ImagePickerPage({super.key});
@@ -24,28 +26,48 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        backgroundColor: Color(0xFF1A36B9),
+        //backgroundColor: Color(0xFF1A36B9),
         body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 20.0),
-              Expanded(
-                child: SizedBox(
-                    height: 200.0,
-                    child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 2.0,
-                        crossAxisSpacing: 2.0,
-                      ),
-                      itemCount: images.length,
-                      itemBuilder: (_, index) {
-                        return AssetThumbnail(image: images[index]);
-                      },
-                    )),
-              ),
-              ElevatedButton(onPressed: _pickRandomImage, child: Text("Pick random images"))
-            ]));
+          children: <Widget> [
+            SizedBox(height: 50),
+            Text("Image\nSelection",
+              style: TextStyle(fontSize: 50, fontFamily: "Kanit"),
+              textAlign: TextAlign.center,
+            ),
+            Expanded(
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: SizedBox(
+                              child: GridView.builder(
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 4,
+                                  mainAxisSpacing: 5.0,
+                                  crossAxisSpacing: 5.0,
+                                ),
+                                itemCount: images.length,
+                                itemBuilder: (_, index) {
+                                  return AssetThumbnail(image: images[index]);
+                                },
+                              )),
+                        ),
+                      ]),
+                ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Button(action: _pickRandomImage, text: "Reroll images", isPrimary: false),
+                Button(text: "Ok", isPrimary: true)
+              ],
+            ),
+            SizedBox(height: 70)
+          ],
+        )
+        );
   }
 
   Future<void> _pickRandomImage() async {
