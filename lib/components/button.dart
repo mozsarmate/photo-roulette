@@ -1,7 +1,6 @@
 // import "dart:html";
 
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
 // import ="package:flutter_svg/flutter_svg.dart";
 
 class Button extends StatelessWidget {
@@ -9,6 +8,7 @@ class Button extends StatelessWidget {
   final bool isPrimary;
   final double margin;
   final Function? action;
+  final double width;
 
   const Button({
     super.key,
@@ -16,6 +16,7 @@ class Button extends StatelessWidget {
     required this.isPrimary,
     this.margin = 5,
     this.action,
+    this.width = 180,
   });
 
   @override
@@ -49,7 +50,7 @@ class Button extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(13)),
                   ),
                 ),
-                minimumSize: MaterialStateProperty.all(const Size(180, 50))),
+                minimumSize: MaterialStateProperty.all(Size(width, 50))),
             child: Text(text,
                 style: const TextStyle(color: Colors.white, fontSize: 17))));
   }
