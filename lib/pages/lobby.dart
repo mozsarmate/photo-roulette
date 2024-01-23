@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:photo_roulette/pages/resultsPanel.dart';
+import 'package:photo_roulette/components/mainAppBar.dart';
+import 'package:photo_roulette/components/readyPlayerWidget.dart';
 
 class LobbyScreen extends StatefulWidget{
   //const LobbyScreen({required this.gamePin, super.key});
@@ -22,14 +23,7 @@ class _LobbyState extends State<LobbyScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-              icon: Icon(Icons.close),
-              tooltip: "Quit session",
-              onPressed: (){Navigator.pop(context);}
-          ),
-          title: Text(gamePin),
-        ),
+        appBar: mainAppBar,
         body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
@@ -39,8 +33,8 @@ class _LobbyState extends State<LobbyScreen>{
           ),
           child: Column(
             children: <Widget>[
-              Text(name),
-              ResultsPanel(),
+              ReadyPlayerWidget(avatar: "assets/images/avatar_example.png", name: name, ready: true),
+              ReadyPlayerWidget(avatar: "assets/images/avatar_example.png", name: "Blatin", ready: false),
             ],
           )
         )
