@@ -198,4 +198,16 @@ class DbCommunicator {
       return null; // Consider using 'Future.error(e)' to propagate the error.
     }
   }
+
+  Future<void> updateVote(FirebaseFirestore firestore, String roomCode, Player player, String vote) async {
+    try {
+      // Reference to the player document
+      DocumentReference playerDoc = firestore.collection(roomCode).doc("state").collection("players").doc(player.name);
+
+      // Update the vote field in the document
+      await playerDoc.update({'guess': vote});
+    } catch (e) {
+      print("Error updating vote: $e");
+    }
+  }
 }
