@@ -1,3 +1,6 @@
+import 'dart:core';
+import 'dart:core';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
@@ -8,11 +11,11 @@ class DbCommunicator {
 
   /// Initializes a room in Firestore with given structure.
   /// Returns a Future indicating the completion of the operation.
-  Future<void> initRoom(FirebaseFirestore firestore) async {
+  Future<void> initRoom(FirebaseFirestore firestore, int numOfRounds, int timePerRound) async {
     try {
       int code = _generateRoomCode();
       String room = code.toString();
-      Map<String, dynamic> staticData = {'order': [], 'owner': []};
+      Map<String, dynamic> staticData = {'order': [], 'owner': [], 'timePerRound': timePerRound, 'numOfRounds': numOfRounds};
       Map<String, dynamic> stateData = {
         'round': 0,
         'answerHidden': true,
