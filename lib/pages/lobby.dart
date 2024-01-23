@@ -4,17 +4,19 @@ import 'package:photo_roulette/pages/resultsPanel.dart';
 class LobbyScreen extends StatefulWidget{
   //const LobbyScreen({required this.gamePin, super.key});
   final gamePin;
-  const LobbyScreen({super.key, required String this.gamePin});
+  final name; //for testing textField
+  LobbyScreen({super.key, required String this.gamePin, required this.name});
 
   @override
-  State<LobbyScreen> createState() => _LobbyState(gamePin);
+  State<LobbyScreen> createState() => _LobbyState(gamePin, name);
 }
 
 class _LobbyState extends State<LobbyScreen>{
   late List<String> players;
   final gamePin;
+  final name;
 
-  _LobbyState(this.gamePin);
+  _LobbyState(this.gamePin, this.name);
 
 
   @override
@@ -35,8 +37,12 @@ class _LobbyState extends State<LobbyScreen>{
                   fit: BoxFit.cover
               )
           ),
-          child: ResultsPanel()
-
+          child: Column(
+            children: <Widget>[
+              Text(name),
+              ResultsPanel(),
+            ],
+          )
         )
     );
   }

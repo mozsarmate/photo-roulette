@@ -1,11 +1,11 @@
-import 'dart:math';
-import 'dart:typed_data';
-
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:photo_roulette/pages/leaderboard.dart';
+import 'package:photo_roulette/themes/themes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:photo_manager/photo_manager.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -33,13 +33,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Images Upload Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: MyHomePage(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: "Photo Roulette",
+        //home: const RoundScreen(gamePin: "123"),
+        home: LeaderBoardPage(),
+        theme: mainTheme);
   }
 }
 
