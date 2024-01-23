@@ -111,9 +111,6 @@ class DbCommunicator {
 
       // Get the document
       DocumentSnapshot stateSnapshot = await stateDoc.get();
-      print(stateSnapshot.exists);
-      print(stateSnapshot);
-      print(stateSnapshot.data());
       if (stateSnapshot.exists && stateSnapshot.data() != null) {
         // Extract the data in a safe way
         Map<String, dynamic> data = stateSnapshot.data() as Map<String, dynamic>;
@@ -130,6 +127,68 @@ class DbCommunicator {
     }
   }
 
+  Future<void> incrementVoted(FirebaseFirestore firestore, String roomCode) async {
+    try {
+      // Reference to the document
+      DocumentReference stateDoc = firestore.collection(roomCode).doc("state");
+
+      // Get the document
+      DocumentSnapshot stateSnapshot = await stateDoc.get();
+      if (stateSnapshot.exists && stateSnapshot.data() != null) {
+        // Extract the data in a safe way
+        Map<String, dynamic> data = stateSnapshot.data() as Map<String, dynamic>;
+        int currentVote = data.containsKey('voted') ? data['voted'] as int : 0;
+
+        // Increment and update the round value
+        await stateDoc.update({"voted": currentVote + 1});
+      } else {
+        print("Document does not exist");
+      }
+    } catch (e) {
+      print("Error incrementing round: $e");
+      return null; // Consider using 'Future.error(e)' to propagate the error.
+    }
+  }
+
+  Future<void> resetVoted(FirebaseFirestore firestore, String roomCode) async {
+    try {
+      // Reference to the document
+      DocumentReference stateDoc = firestore.collection(roomCode).doc("state");
+
+      // Get the document
+      DocumentSnapshot stateSnapshot = await stateDoc.get();
+      if (stateSnapshot.exists && stateSnapshot.data() != null) {
+
+        // Increment and update the round value
+        await stateDoc.update({"voted": 0});
+      } else {
+        print("Document does not exist");
+      }
+    } catch (e) {
+      print("Error incrementing round: $e");
+      return null; // Consider using 'Future.error(e)' to propagate the error.
+    }
+  }
+
+  Future<void> resetRound(FirebaseFirestore firestore, String roomCode) async {
+    try {
+      // Reference to the document
+      DocumentReference stateDoc = firestore.collection(roomCode).doc("state");
+
+      // Get the document
+      DocumentSnapshot stateSnapshot = await stateDoc.get();
+      if (stateSnapshot.exists && stateSnapshot.data() != null) {
+
+        // Increment and update the round value
+        await stateDoc.update({"round": 0});
+      } else {
+        print("Document does not exist");
+      }
+    } catch (e) {
+      print("Error incrementing round: $e");
+      return null; // Consider using 'Future.error(e)' to propagate the error.
+    }
+  }
 
 }
 

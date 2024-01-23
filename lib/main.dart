@@ -96,6 +96,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ElevatedButton(onPressed: () => this.db.addPlayer(_firestore, "2066", buj), child: Text("Add Bujdi")),
             ElevatedButton(onPressed: () => db.incrementRound(_firestore, "2066"), child: Text("Next Round")),
+            ElevatedButton(onPressed: () => db.incrementVoted(_firestore, "2066"), child: Text("Incr vote")),
+            ElevatedButton(onPressed: () => db.resetRound(_firestore, "2066"), child: Text("Reset round")),
+            ElevatedButton(onPressed: () => db.resetVoted(_firestore, "2066"), child: Text("Reset voted")),
             //ElevatedButton(onPressed: _downloadImage, child: Text('Download DA IMAGE'))
             SizedBox(height: 20.0),
             StreamBuilder(
