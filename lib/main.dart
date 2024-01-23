@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:photo_roulette/pages/home.dart';
-import 'package:photo_roulette/pages/resultsPage.dart';
+import 'package:photo_roulette/pages/resultsPanel.dart';
 import 'package:photo_roulette/pages/testing.dart';
 import 'package:photo_roulette/themes/themes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

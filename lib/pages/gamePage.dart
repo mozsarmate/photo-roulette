@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:photo_roulette/components/backdropFilter.dart';
-import 'package:photo_roulette/pages/resultsPage.dart';
+import 'package:photo_roulette/pages/resultsPanel.dart';
 
 import '../components/votePanel.dart';
 import '../models/image_model.dart';
 
-class RoundScreen extends StatefulWidget {
-  const RoundScreen({required this.gamePin, super.key});
+class GamePage extends StatefulWidget {
+  const GamePage({required this.gamePin, super.key});
 
   final String gamePin;
 
   @override
-  State<StatefulWidget> createState() => _RoundState(gamePin);
+  State<StatefulWidget> createState() => _GameState(gamePin);
 }
-
-class _RoundState extends State<RoundScreen> {
-  _RoundState(this.gamePin);
+class _GameState extends State<GamePage>{
+  _GameState(this.gamePin);
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   int state = 0;
   String gamePin;
@@ -28,14 +27,15 @@ class _RoundState extends State<RoundScreen> {
     fetchData();
     // Your function to run on widget load
   }
-
   Future<void> fetchData() async {
     _firestore.collection("2066").doc("static").collection("images").get().then(
-      (querySnapshot) {
+          (querySnapshot) {
+        List<ImageModel> res = [];
         for (var docSnapshot in querySnapshot.docs) {
+          print("image");
           if (docSnapshot.exists) {
             var data = docSnapshot.data();
-            images.add(
+            res.add(
               ImageModel(
                   imageUrl: data["url"],
                   owner: data["commiter"],
@@ -43,12 +43,15 @@ class _RoundState extends State<RoundScreen> {
             );
           }
         }
+        setState(() {
+          images = res;
+        });
       },
       onError: (e) => print("Error completing: $e"),
     );
   }
-
   ImageProvider<Object> getImageUrl(int id) {
+    print(id);
     for (int i = 0; i < images.length; i++) {
       if (images[i].id == id) {
         return NetworkImage(images[i].imageUrl);
@@ -56,9 +59,15 @@ class _RoundState extends State<RoundScreen> {
     }
     return const AssetImage("assets/images/main_background.jpg");
   }
+  void revealAns(){
+    _firestore.collection("2066").doc('state').update({'revealed': true});
+  }
 
   @override
   Widget build(BuildContext context) {
+    if(images.isEmpty){
+      return const Text("Loading...");
+    }
     return StreamBuilder(
       stream: _firestore.collection("2066").doc('state').snapshots(),
       builder: (context, snapshot) {
@@ -67,27 +76,10 @@ class _RoundState extends State<RoundScreen> {
         }
         final data = snapshot.data!;
         //final List<String> names = data["names"].cast<String>();
-        return BlurredImage(
-            image: getImageUrl(data['round']),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                      padding:
-                          const EdgeInsets.only(top: 150, left: 20, right: 20),
-                      child: Image(
-                        image: getImageUrl(data['round']),
-                      )),
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: (data['answer'])
-                          ? VotePanel(
-                              names: ["Blatin", "Johannes", "Lukas"])
-                          : const ResultsPage()),
-                ]
-            )
-        );
+        return (data['revealed'])
+            ? const ResultsPanel()
+            : VotePanel(
+          names: const ["Blatin", "Johannes", "Lukas", "asd"], image: getImageUrl(data['round']), round:4, max:images.length, reveal: revealAns);
       },
     );
 

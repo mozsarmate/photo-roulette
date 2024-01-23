@@ -18,6 +18,5 @@ ThemeData mainTheme = ThemeData(
         onBackground: Colors.white,
         surface: Colors.black,
         onSurface: Colors.white),
-    textTheme: const TextTheme(displayLarge: TextStyle(
-      fontFamily: 'Kanit'
-    )));
+    fontFamily: 'Kanit',
+);

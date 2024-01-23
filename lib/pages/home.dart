@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:photo_roulette/components/mainAppBar.dart";
 import "package:photo_roulette/themes/themes.dart";
 
+import "../components/button.dart";
 import "./lobby.dart";
 
 class HomePage extends StatefulWidget {
@@ -14,6 +15,38 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final nameController = TextEditingController();
   final pinController = TextEditingController();
+  FocusNode _focusNode = FocusNode();
+  FocusNode _focusNode1 = FocusNode();
+  int focused = -1;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode1.addListener(() {
+      print("f1");
+      if (_focusNode1.hasFocus) {
+        setState(() {
+          focused = 1;
+        });
+      }else{
+        setState(() {
+          focused = -1;
+        });
+      }
+    });
+    _focusNode.addListener(() {
+      print("f2");
+      if (_focusNode.hasFocus) {
+        setState(() {
+          focused = 0;
+        });
+      }else{
+        setState(() {
+          focused = -1;
+        });
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -22,8 +55,10 @@ class HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  //final buttonArea =
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: mainAppBar,
@@ -47,100 +82,48 @@ class HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
+                              children: [
+
+                                Button(
+                                  isPrimary: true,
+                                  text: "Create Game",
                                   width: 300,
-                                  height: 65,
-                                  decoration: ShapeDecoration(
-                                      shape: RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                              color: colorPrimary),
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      color: Colors.white),
-                                  child: TextField(
-                                    controller: nameController,
-                                    style: TextStyle(fontSize: 30),
-                                    textAlign: TextAlign.center,
-                                    textAlignVertical: TextAlignVertical.center,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0)),
-                                        hintText: "Name"),
-                                  ),
+                                  action: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => LobbyScreen(
+                                                gamePin: "123456",
+                                                name: nameController.text,
+                                                key: null)));
+                                  },
                                 ),
-                                ElevatedButton(
-                                    style: ButtonStyle(
-                                      fixedSize:
-                                          MaterialStateProperty.resolveWith(
-                                              (states) => const Size(300, 50)),
-                                      shape: MaterialStateProperty.resolveWith(
-                                          (states) => RoundedRectangleBorder(
-                                              side: const BorderSide(
-                                                  color: Color(0x00000000)),
-                                              borderRadius:
-                                                  BorderRadius.circular(20))),
-                                      backgroundColor:
-                                          MaterialStateProperty.resolveWith(
-                                              (states) => colorPrimary),
-                                    ),
-                                    child: const Text(
-                                      "Create Game",
-                                      style: TextStyle(color: colorSecondary),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => LobbyScreen(
-                                                  gamePin: "123456",
-                                                  name: nameController.text,
-                                                  key: null)));
-                                    }),
                                 Container(
                                   width: 300,
                                   height: 50,
                                   decoration: ShapeDecoration(
                                       shape: RoundedRectangleBorder(
-                                          side: const BorderSide(
-                                              color: colorPrimary),
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
+                                          side: const BorderSide(color: colorPrimary),
+                                          borderRadius: BorderRadius.circular(20)),
                                       color: Colors.white),
                                   child: TextField(
+                                    focusNode: _focusNode1,
                                     controller: pinController,
                                     style: TextStyle(fontSize: 20),
                                     textAlign: TextAlign.center,
                                     textAlignVertical: TextAlignVertical.top,
                                     decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0)),
+                                      border:
+                                      OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
                                       hintText: 'Game Pin',
                                     ),
                                   ),
                                 ),
-                                ElevatedButton(
-                                    style: ButtonStyle(
-                                      fixedSize:
-                                          MaterialStateProperty.resolveWith(
-                                              (states) => const Size(300, 50)),
-                                      shape: MaterialStateProperty.resolveWith(
-                                          (states) => RoundedRectangleBorder(
-                                              side: const BorderSide(
-                                                  color: Color(0x00000000)),
-                                              borderRadius:
-                                                  BorderRadius.circular(20))),
-                                      backgroundColor:
-                                          MaterialStateProperty.resolveWith(
-                                              (states) => colorSecondary),
-                                    ),
-                                    child: const Text(
-                                      "Join Game",
-                                      style: TextStyle(color: colorPrimary),
-                                    ),
-                                    onPressed: () {
+                                Button(
+                                    isPrimary: false,
+                                    text: "Join Game",
+                                    width: 300,
+                                    action: () {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
