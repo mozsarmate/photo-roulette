@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -56,7 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final ImagePicker _imagePicker = ImagePicker();
 
-  final numOfImagesWanted = 10;
+  final numOfImagesWanted = 16;
+  var numOfImagesGot = 2;
 
   List<AssetEntity> images = [];
 
@@ -72,26 +74,19 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: _pickRandomImage,
             child: Text('Pick Random Images'),
           ),
-         /* ElevatedButton(
-            onPressed: _requestPermission,
-            child: Text('Request Permission'),
-          ),
-          ElevatedButton(
-            onPressed: _requestCameraPermission,
-            child: Text('Request Camera Permission'),
-          ),*/
-          /* ElevatedButton(
-            onPressed: _uploadImage,
-            child: Text('Upload Image'),
-          ),*/
           SizedBox(height: 20.0),
           Expanded(
             child: SizedBox(
                 height: 200.0,
-                child: ListView.builder(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 2.0,
+                    crossAxisSpacing: 2.0,
+                  ),
                   itemCount: images.length,
                   itemBuilder: (_, index) {
-                    return Text(images[index].id);
+                    return AssetThumbnail(image: images[index]);
                   },
                 )),
           )
@@ -106,6 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
     if (status.hasAccess) {
       // Permission is granted, proceed to access images
       images = await PhotoManager.getAssetListRange(start: 0, end: 500);
+      images.shuffle();
+      numOfImagesGot = min(images.length, numOfImagesWanted);
+      images = images.take(numOfImagesWanted).toList();
       setState(() {});
     } else {
         print('Permission Denied');
@@ -115,32 +113,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
   }
-/*
-  void _requestPermission() async {
-    Permission.photos.request().then((status) {
-      if (status.isGranted) {
-        print('Permission Granted');
-      } else if (!status.isDenied) {
-        print('Permission Granted Limited');
-      } else {
-        print('Permission Denied');
-      }
-    });
-  }
-
-  void _requestCameraPermission() async {
-    Permission.camera.request().then((value) {
-      if (value.isGranted) {
-        print('Permission Granted');
-      } else if (value.isDenied) {
-        print('Permission Denied');
-      } else if (value.isPermanentlyDenied) {
-        print('Permission Permanently Denied');
-      } else if (value.isRestricted) {
-        print('Permission Restricted');
-      }
-    });
-  }*/
 
 
 class AssetThumbnail extends StatelessWidget {
