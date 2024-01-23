@@ -18,7 +18,8 @@ class DbCommunicator {
       };
       Map<String, dynamic> stateData = {
         'round': 0,
-        'players': [],
+        'answerHidden': true,
+        'voted': 0
       };
 
       await firestore.collection(room).doc("static").set(staticData);
@@ -103,6 +104,31 @@ class DbCommunicator {
     }
   }
 
+  Future<void> incrementRound(FirebaseFirestore firestore, String roomCode) async {
+    try {
+      // Reference to the document
+      DocumentReference stateDoc = firestore.collection(roomCode).doc("state");
+
+      // Get the document
+      DocumentSnapshot stateSnapshot = await stateDoc.get();
+      print(stateSnapshot.exists);
+      print(stateSnapshot);
+      print(stateSnapshot.data());
+      if (stateSnapshot.exists && stateSnapshot.data() != null) {
+        // Extract the data in a safe way
+        Map<String, dynamic> data = stateSnapshot.data() as Map<String, dynamic>;
+        int currentRound = data.containsKey('round') ? data['round'] as int : 0;
+
+        // Increment and update the round value
+        await stateDoc.update({"round": currentRound + 1});
+      } else {
+        print("Document does not exist");
+      }
+    } catch (e) {
+      print("Error incrementing round: $e");
+      return null; // Consider using 'Future.error(e)' to propagate the error.
+    }
+  }
 
 
 }
