@@ -7,7 +7,8 @@ class Button extends StatelessWidget {
   final String text;
   final bool isPrimary;
   final double margin;
-  final void Function()? action;
+  final Function? action;
+  final double width;
 
   const Button({
     super.key,
@@ -15,6 +16,7 @@ class Button extends StatelessWidget {
     required this.isPrimary,
     this.margin = 5,
     this.action,
+    this.width = 180,
   });
 
   @override
@@ -30,7 +32,7 @@ class Button extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.all(10),
         child: ElevatedButton(
-            onPressed: action,
+            onPressed: ()=> action!(),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(bgColor),
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -48,7 +50,7 @@ class Button extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(13)),
                   ),
                 ),
-                minimumSize: MaterialStateProperty.all(const Size(180, 50))),
+                minimumSize: MaterialStateProperty.all(Size(width, 50))),
             child: Text(text,
                 style: const TextStyle(color: Colors.white, fontSize: 17))));
   }

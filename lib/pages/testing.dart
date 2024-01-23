@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:photo_roulette/pages/gamePage.dart';
 import 'home.dart';
 import 'imagePickerPage.dart';
 import 'leaderboard.dart';
 import 'lobby.dart';
 import 'resultsPanel.dart';
-import 'round.dart';
 
 class Testing extends StatelessWidget{
   @override
@@ -33,7 +33,7 @@ class Testing extends StatelessWidget{
           ElevatedButton(
             child: const Text("Round"),
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>const RoundScreen(gamePin: "123456")));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const GamePage(gamePin: "123456")));
             },
           ),
           ElevatedButton(
