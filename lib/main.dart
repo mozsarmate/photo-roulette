@@ -5,7 +5,6 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -73,14 +72,14 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: _pickRandomImage,
             child: Text('Pick Random Images'),
           ),
-          ElevatedButton(
+         /* ElevatedButton(
             onPressed: _requestPermission,
             child: Text('Request Permission'),
           ),
           ElevatedButton(
             onPressed: _requestCameraPermission,
             child: Text('Request Camera Permission'),
-          ),
+          ),*/
           /* ElevatedButton(
             onPressed: _uploadImage,
             child: Text('Upload Image'),
@@ -101,31 +100,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<void> _requestPermission() async {
-    final PermissionState ps = await PhotoManager.requestPermissionExtend(); // the method can use optional param `permission`.
-    if (ps.isAuth) {
-      print('Permission Granted');
-    } else if (ps.hasAccess) {
-      print('Permission Granted Limited');
-    } else {
-      print('Permission Denied');
-    }
-  }
-
   Future<void> _pickRandomImage() async {
-    var status = await Permission.storage.status;
+    var status = await PhotoManager.requestPermissionExtend();
 
-    if (status.isGranted) {
+    if (status.hasAccess) {
       // Permission is granted, proceed to access images
       images = await PhotoManager.getAssetListRange(start: 0, end: 500);
       setState(() {});
     } else {
-      // Permission is not granted, request permission
-      if (await Permission.photos.request().isGranted) {
-        // Permission is granted, proceed to access images
-        images = await PhotoManager.getAssetListRange(start: 0, end: 500);
-        setState(() {});
-      } else {
         print('Permission Denied');
         // Permission is denied by the user
         // Handle the case where the user denies permission
@@ -133,8 +115,20 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
   }
+/*
+  void _requestPermission() async {
+    Permission.photos.request().then((status) {
+      if (status.isGranted) {
+        print('Permission Granted');
+      } else if (!status.isDenied) {
+        print('Permission Granted Limited');
+      } else {
+        print('Permission Denied');
+      }
+    });
+  }
 
-  void _requestCameraPermission() {
+  void _requestCameraPermission() async {
     Permission.camera.request().then((value) {
       if (value.isGranted) {
         print('Permission Granted');
@@ -146,8 +140,8 @@ class _MyHomePageState extends State<MyHomePage> {
         print('Permission Restricted');
       }
     });
-  }
-}
+  }*/
+
 
 class AssetThumbnail extends StatelessWidget {
   const AssetThumbnail({
