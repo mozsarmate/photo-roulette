@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () => this.db.initRoom(_firestore),
               child: Text('initroom'),
             ),
-            ElevatedButton(onPressed: _downloadImage, child: Text('Download DA IMAGE'))
+            //ElevatedButton(onPressed: _downloadImage, child: Text('Download DA IMAGE'))
             SizedBox(height: 20.0),
             StreamBuilder(
               stream: _firestore.collection('images').snapshots(),
@@ -157,22 +157,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-
-  Future<List<ImageData>> getImages() async {
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  // Query the images subcollection
-  QuerySnapshot querySnapshot = await _firestore
-      .collection('2066')
-      .doc('static')
-      .collection('images')
-      .get();
-
-  // Map the documents to ImageData objects
-  return querySnapshot.docs
-      .map((doc) => ImageData.fromDocument(doc))
-      .toList();
-  }
 
 }
 
