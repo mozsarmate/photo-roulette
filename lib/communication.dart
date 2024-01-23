@@ -13,7 +13,6 @@ class DbCommunicator {
       int code = _generateRoomCode();
       String room = code.toString();
       Map<String, dynamic> staticData = {
-        'images': [],
         'order': [],
         'owner': []
       };

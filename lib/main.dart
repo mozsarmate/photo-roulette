@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -91,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () => this.db.initRoom(_firestore),
               child: Text('initroom'),
             ),
+            //ElevatedButton(onPressed: _downloadImage, child: Text('Download DA IMAGE'))
             SizedBox(height: 20.0),
             StreamBuilder(
               stream: _firestore.collection('images').snapshots(),
@@ -137,7 +139,8 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
     try{
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      //room 2066
+      String fileName = "test";
       Reference storageReference = _storage.ref().child('images/$fileName');
       UploadTask uploadTask = storageReference.putFile(_image!);
       await uploadTask;
@@ -145,14 +148,17 @@ class _MyHomePageState extends State<MyHomePage> {
       String downloadURL = await storageReference.getDownloadURL();
 
       // Save image reference in Firestore
-      await _firestore.collection('images').add({
-        'url': downloadURL,
-        'timestamp': FieldValue.serverTimestamp(),
+      await _firestore.collection('2066').doc('static').collection('images').add({
+        "url": downloadURL,
+        "commiter": "Bujdi",
+        "img-id": 12
+        // This adds the download URL to the images array without overwriting existing data
       });
     } catch (error) {
       print('Error uploading image: $error');
     }
   }
+
 }
 
 
