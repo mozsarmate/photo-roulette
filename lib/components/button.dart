@@ -7,7 +7,7 @@ class Button extends StatelessWidget {
   final String text;
   final bool isPrimary;
   final double margin;
-  final void Function()? action;
+  final Function? action;
 
   const Button({
     super.key,
@@ -30,7 +30,7 @@ class Button extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.all(10),
         child: ElevatedButton(
-            onPressed: action,
+            onPressed: ()=>action!(),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(bgColor),
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
