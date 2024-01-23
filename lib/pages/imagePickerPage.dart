@@ -59,13 +59,8 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
       images = images.take(numOfImagesWanted).toList();
       setState(() {});
     } else {
-      print('Permission Denied');
-      // Permission is denied by the user
-      // Handle the case where the user denies permission
-      // You may want to display a message or guide the user to enable the permission manually
+      Text("Permission not granted");
+      print("Permission not granted");
     }
   }
 }
-
-
-
