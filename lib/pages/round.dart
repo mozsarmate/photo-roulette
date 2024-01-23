@@ -48,7 +48,6 @@ class _RoundState extends State<RoundScreen> {
     );
   }
 
-
   ImageProvider<Object> getImageUrl(int id) {
     for (int i = 0; i < images.length; i++) {
       if (images[i].id == id) {
@@ -67,7 +66,6 @@ class _RoundState extends State<RoundScreen> {
           return const Text("Loading...");
         }
         final data = snapshot.data!;
-        final collection = snapshot.
         //final List<String> names = data["names"].cast<String>();
         return BlurredImage(
             image: getImageUrl(data['round']),
@@ -92,5 +90,6 @@ class _RoundState extends State<RoundScreen> {
         );
       },
     );
+
   }
 }

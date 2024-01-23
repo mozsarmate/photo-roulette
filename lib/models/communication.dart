@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
-import 'package:photo_roulette/player.dart';
+import 'package:photo_roulette/models/player.dart';
 
 class DbCommunicator {
   DbCommunicator();
