@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:photo_roulette/pages/home.dart';
-import 'package:photo_roulette/pages/resultsPanel.dart';
+
+import 'package:flutter/services.dart';
+import 'package:photo_roulette/pages/imagePickerPage.dart';
 import 'package:photo_roulette/themes/themes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
+  await FirebaseAppCheck.instance.activate();
+
+  runApp(
+    Provider.value(
+      value: FirebaseFirestore.instance,
+      child: MyApp(),
+    ),
+  );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(const MyApp()));
 }
@@ -19,7 +37,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Photo Roulette",
-        home: const HomePage(),
-        theme: mainTheme);
+        //home: const RoundScreen(gamePin: "123"),
+        home: const ImagePickerPage(),
+        theme: mainTheme
+    );
   }
 }
