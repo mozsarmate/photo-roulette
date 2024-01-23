@@ -16,7 +16,7 @@ class Button extends StatelessWidget {
     required this.isPrimary,
     this.margin = 5,
     this.action,
-    this.width = 180,
+    this.width = 180
   });
 
   @override

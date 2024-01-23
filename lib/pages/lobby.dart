@@ -40,7 +40,7 @@ class _LobbyState extends State<LobbyScreen>{
           child: Column(
             children: <Widget>[
               Text(name),
-              ResultsPage(),
+              //ResultsPage(),
             ],
           )
         )

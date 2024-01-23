@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:photo_roulette/components/backdropFilter.dart';
+import 'package:photo_roulette/models/player.dart';
 import 'package:photo_roulette/pages/resultsPage.dart';
 
 import '../components/votePanel.dart';
@@ -14,22 +15,26 @@ class GamePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _GameState(gamePin);
 }
-class _GameState extends State<GamePage>{
+
+class _GameState extends State<GamePage> {
   _GameState(this.gamePin);
+
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   int state = 0;
   String gamePin;
   List<ImageModel> images = [];
   List<String> players = [];
+
   @override
   void initState() {
     super.initState();
     fetchData();
     // Your function to run on widget load
   }
+
   Future<void> fetchData() async {
     _firestore.collection("2066").doc("static").collection("images").get().then(
-          (querySnapshot) {
+      (querySnapshot) {
         List<ImageModel> res = [];
         for (var docSnapshot in querySnapshot.docs) {
           print("image");
@@ -50,6 +55,7 @@ class _GameState extends State<GamePage>{
       onError: (e) => print("Error completing: $e"),
     );
   }
+
   ImageProvider<Object> getImageUrl(int id) {
     print(id);
     for (int i = 0; i < images.length; i++) {
@@ -59,13 +65,14 @@ class _GameState extends State<GamePage>{
     }
     return const AssetImage("assets/images/main_background.jpg");
   }
-  void revealAns(){
+
+  void revealAns() {
     _firestore.collection("2066").doc('state').update({'revealed': true});
   }
 
   @override
   Widget build(BuildContext context) {
-    if(images.isEmpty){
+    if (images.isEmpty) {
       return const Text("Loading...");
     }
     return StreamBuilder(
@@ -77,11 +84,31 @@ class _GameState extends State<GamePage>{
         final data = snapshot.data!;
         //final List<String> names = data["names"].cast<String>();
         return (data['revealed'])
-            ? const ResultsPage()
+            ? ResultsPage(players: [
+                Player("Blatin",
+                    guess: "Bujdi",
+                    points: 10,
+                    avatar: "assets/images/avatar_example.png"),
+          Player("Mate",
+              guess: "Bujdi",
+              points: 10,
+              avatar: "assets/images/avatar_example.png"),
+                Player("Bujdi",
+                    guess: "Johannes",
+                    points: 10,
+                    avatar: "assets/images/avatar_example.png"),
+                Player("Lukas",
+                    guess: "Mate",
+                    points: 10,
+                    avatar: "assets/images/avatar_example.png"),
+              ], imageOwner: "Mate", roundImage: AssetImage("assets/images/main_background.jpg"))
             : VotePanel(
-          names: const ["Blatin", "Johannes", "Lukas", "asd"], image: getImageUrl(data['round']), round:4, max:images.length, reveal: revealAns);
+                names: const ["Blatin", "Johannes", "Lukas", "asd"],
+                image: getImageUrl(data['round']),
+                round: 4,
+                max: images.length,
+                reveal: revealAns);
       },
     );
-
   }
 }
