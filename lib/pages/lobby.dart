@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:photo_roulette/pages/resultsPanel.dart';
+import 'package:photo_roulette/pages/resultsPage.dart';
 
 class LobbyScreen extends StatefulWidget{
   //const LobbyScreen({required this.gamePin, super.key});
@@ -21,37 +21,29 @@ class _LobbyState extends State<LobbyScreen>{
 
   @override
   Widget build(BuildContext context) {
-    players=["Bujdi", "Marci", "Miki", "Bálint", "Máté", "Beni"];
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          tooltip: "Quit session",
-          onPressed: (){Navigator.pop(context);}
+        appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(Icons.close),
+              tooltip: "Quit session",
+              onPressed: (){Navigator.pop(context);}
+          ),
+          title: Text(gamePin),
         ),
-        title: Text(gamePin),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/main_background.jpg"),
-            fit: BoxFit.cover
+        body: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/main_background.jpg"),
+                  fit: BoxFit.cover
+              )
+          ),
+          child: Column(
+            children: <Widget>[
+              Text(name),
+              //ResultsPage(),
+            ],
           )
-        ),
-        child: //Column(
-          //children: <Widget>[
-            //Text(name),
-            GridView.count(
-            crossAxisCount: 2,
-            scrollDirection: Axis.vertical,
-            padding: EdgeInsets.fromLTRB(50, 200, 50, 200),
-            crossAxisSpacing: 180,
-            children:List.generate(players.length, (index) => Text(players[index]),)),
-              //children: List.generate(players.length, (index) => Center(child:Text(players[index]))),
-            ),
-          //],
-
-      //)
+        )
     );
   }
 

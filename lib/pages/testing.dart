@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:photo_roulette/pages/gameCreation.dart';
+import 'package:photo_roulette/pages/gamePage.dart';
 import 'home.dart';
 import 'imagePickerPage.dart';
 import 'leaderboard.dart';
 import 'lobby.dart';
-import 'resultsPanel.dart';
-import 'round.dart';
+import 'resultsPage.dart';
 
 class Testing extends StatelessWidget{
   @override
@@ -18,12 +17,6 @@ class Testing extends StatelessWidget{
             child: const Text("Home"),
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomePage()));
-            },
-          ),
-          ElevatedButton(
-            child: const Text("Game Creation"),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>const GameCreation()));
             },
           ),
           ElevatedButton(
@@ -41,15 +34,15 @@ class Testing extends StatelessWidget{
           ElevatedButton(
             child: const Text("Round"),
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>const RoundScreen(gamePin: "123456")));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const GamePage(gamePin: "123456")));
             },
           ),
-          ElevatedButton(
-            child: const Text("Round Results"),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>const ResultsPanel()));//will need game pin
-            },
-          ),
+          // ElevatedButton(
+          //   child: const Text("Round Results"),
+          //   onPressed: (){
+          //     Navigator.push(context, MaterialPageRoute(builder: (context)=>const ResultsPage()));//will need game pin
+          //   },
+          // ),
           ElevatedButton(
             child: const Text("Game Results"),
             onPressed: (){

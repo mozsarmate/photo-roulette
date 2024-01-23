@@ -18,35 +18,46 @@ class PlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color textColor = lastVoteWasCorrect ? Colors.green : Colors.red;
+    Widget checkOrName = lastVoteWasCorrect
+        ? Image(image: AssetImage("assets/images/check.png"), color: Colors.green)
+        : Text(lastVote, style: TextStyle(fontSize: 16, color: Colors.red));
     String iconPath = lastVoteWasCorrect
         ? "assets/images/check.png"
         : "assets/images/cross.png";
+    TextStyle nameStyle = TextStyle(color: Colors.black, fontSize: 18);
+    AssetImage avatar = AssetImage("assets/images/avatar_example.png");
     return Container(
-        margin: EdgeInsets.all(10),
-        width: 250,
+        margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-            color: Color(0xA0404040), borderRadius: BorderRadius.circular(10)),
+            color: Colors.white, borderRadius: BorderRadius.circular(13)),
         child: Row(
-          children: <Widget>[
-            Image(image: AssetImage(avatarPath)),
-            Container(
-                margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                width: 150,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(name,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(color: textColor, fontSize: 20)),
-                    Row(children: <Widget>[
-                      Image(
-                          image: AssetImage(iconPath), color: textColor),
-                      Text(lastVote, style: TextStyle(color: textColor))
-                    ])
-                  ],
-                ))
-          ],
-        ));
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(children: [
+                Image(image: avatar),
+                Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          name,
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Theme.of(context).colorScheme.secondary),
+                        ),
+                        Text(
+                          points.toString(),
+                          style: TextStyle(fontSize: 14, color: Colors.black),
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ))
+              ]),
+              Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: checkOrName)
+            ]));
   }
 }

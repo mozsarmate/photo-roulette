@@ -1,5 +1,7 @@
+// import "dart:html";
+
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
+// import ="package:flutter_svg/flutter_svg.dart";
 
 class Button extends StatelessWidget {
   final String text;
@@ -14,7 +16,7 @@ class Button extends StatelessWidget {
     required this.isPrimary,
     this.margin = 5,
     this.action,
-    this.width = 180,
+    this.width = 180
   });
 
   @override
@@ -30,7 +32,7 @@ class Button extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.all(10),
         child: ElevatedButton(
-            onPressed: () {HapticFeedback.heavyImpact(); action?.call();},
+            onPressed: ()=> action!(),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(bgColor),
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
