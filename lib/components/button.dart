@@ -48,7 +48,7 @@ class Button extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(13)),
                   ),
                 ),
-                minimumSize: MaterialStateProperty.all(const Size(150, 50))),
+                minimumSize: MaterialStateProperty.all(const Size(180, 50))),
             child: Text(text,
                 style: const TextStyle(color: Colors.white, fontSize: 17))));
   }
