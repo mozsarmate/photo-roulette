@@ -36,10 +36,20 @@ class ResultsPage extends StatelessWidget {
     ];
     return Scaffold(
         body: Container(
-            color: Color(0x90404040),
+          decoration: BoxDecoration(
+            image: DecorationImage(image: AssetImage("assets/images/main_background.jpg"))
+          ),
             child: Center(
+              child: Container(
+                margin: EdgeInsets.all(50),
+                height: 400,
+                decoration: BoxDecoration(color: Color(0xCC777777), borderRadius: BorderRadius.circular(20)),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: playerWidgets))));
+                    children: playerWidgets)
+              )
+            )
+        )
+              );
   }
 }

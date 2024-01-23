@@ -37,7 +37,7 @@ class PlayerWidget extends StatelessWidget {
               Row(children: [
                 Image(image: avatar),
                 Padding(
-                    padding: const EdgeInsets.only(left: 30, right: 10),
+                    padding: const EdgeInsets.only(left: 20, right: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
