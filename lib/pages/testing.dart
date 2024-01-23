@@ -1,7 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_roulette/models/communication.dart';
 import 'home.dart';
 import 'imagePickerPage.dart';
 import 'leaderboard.dart';
@@ -20,10 +17,17 @@ class Testing extends StatelessWidget{
     return Scaffold(
       body: Column(
         children: <Widget>[
+          SizedBox(height: 100,),
           ElevatedButton(
             child: const Text("Home"),
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomePage()));
+            },
+          ),
+          ElevatedButton(
+            child: const Text("Game Creation"),
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const GameCreation()));
             },
           ),
           ElevatedButton(
