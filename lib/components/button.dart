@@ -1,6 +1,7 @@
 // import "dart:html";
 
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 // import ="package:flutter_svg/flutter_svg.dart";
 
 class Button extends StatelessWidget {
@@ -30,7 +31,7 @@ class Button extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.all(10),
         child: ElevatedButton(
-            onPressed: ()=>action!(),
+            onPressed: () {HapticFeedback.heavyImpact(); action?.call();},
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(bgColor),
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),

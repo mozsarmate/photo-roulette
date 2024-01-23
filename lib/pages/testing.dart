@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo_roulette/pages/gameCreation.dart';
 import 'home.dart';
 import 'imagePickerPage.dart';
 import 'leaderboard.dart';
@@ -17,6 +18,12 @@ class Testing extends StatelessWidget{
             child: const Text("Home"),
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomePage()));
+            },
+          ),
+          ElevatedButton(
+            child: const Text("Game Creation"),
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const GameCreation()));
             },
           ),
           ElevatedButton(
