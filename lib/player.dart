@@ -1,8 +1,8 @@
 class Player {
   final String name;
   late int points;
-  late List<Player> guess;
+  late String guess;
   late String avatar;
 
-  Player(this.name);
+  Player(this.name, {this.guess = '', this.points = 0, this.avatar = ''});
 }

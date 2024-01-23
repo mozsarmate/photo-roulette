@@ -8,6 +8,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:photo_roulette/player.dart';
 import 'package:provider/provider.dart';
 
 import 'communication.dart';
@@ -58,6 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final ImagePicker _imagePicker = ImagePicker();
   final DbCommunicator db = new DbCommunicator();
+  Player buj = new Player("Bujdi", guess: "Miki", points: 3);
+
 
   File? _image;
 
@@ -90,6 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () => this.db.initRoom(_firestore),
               child: Text('initroom'),
             ),
+
+            ElevatedButton(onPressed: () => this.db.addPlayer(_firestore, "2066", buj), child: Text("Add Bujdi")),
             //ElevatedButton(onPressed: _downloadImage, child: Text('Download DA IMAGE'))
             SizedBox(height: 20.0),
             StreamBuilder(
@@ -157,6 +162,20 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Future<void> _downloadImage() async{
+    String img = "";
+    _firestore.collection("2066").doc("static").collection("images").get().then(
+          (querySnapshot) {
+        print("Successfully completed");
+        for (var docSnapshot in querySnapshot.docs) {
+          if (docSnapshot[1] == "Bujdi") {
+            img = docSnapshot[0]["source"];
+          }
+        }
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+  }
 
 }
 

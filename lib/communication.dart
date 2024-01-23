@@ -90,6 +90,19 @@ class DbCommunicator {
     }
   }
 
+  Future<void> addPlayer(FirebaseFirestore firestore, String roomCode, Player player) async{
+    try{
+      await firestore.collection(roomCode).doc("state").collection("players").doc(player.name).set({
+        "points" : player.points,
+        "guess" : player.guess,
+        "avatar" : player.avatar
+      });
+    } catch (e){
+      print("Error adding player: $e");
+      return null;
+    }
+  }
+
 
 
 }
