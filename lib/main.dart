@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final ImagePicker _imagePicker = ImagePicker();
   final DbCommunicator db = new DbCommunicator();
-  Player buj = new Player("Bujdi", guess: "Miki", points: 3);
+  Player buj = new Player("Beni", guess: "Máté", points: 1);
 
 
   File? _image;
@@ -99,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(onPressed: () => db.incrementVoted(_firestore, "2066"), child: Text("Incr vote")),
             ElevatedButton(onPressed: () => db.resetRound(_firestore, "2066"), child: Text("Reset round")),
             ElevatedButton(onPressed: () => db.resetVoted(_firestore, "2066"), child: Text("Reset voted")),
+            ElevatedButton(onPressed: () => db.getResults(_firestore, "2066"), child: Text("Results")),
             //ElevatedButton(onPressed: _downloadImage, child: Text('Download DA IMAGE'))
             SizedBox(height: 20.0),
             StreamBuilder(

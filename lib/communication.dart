@@ -12,10 +12,7 @@ class DbCommunicator {
     try {
       int code = _generateRoomCode();
       String room = code.toString();
-      Map<String, dynamic> staticData = {
-        'order': [],
-        'owner': []
-      };
+      Map<String, dynamic> staticData = {'order': [], 'owner': []};
       Map<String, dynamic> stateData = {
         'round': 0,
         'answerHidden': true,
@@ -37,9 +34,11 @@ class DbCommunicator {
   }
 
   /// Fetches the static data from a specified room.
-  Future<Map<String, dynamic>?> getStaticData(FirebaseFirestore firestore, String roomCode) async {
+  Future<Map<String, dynamic>?> getStaticData(
+      FirebaseFirestore firestore, String roomCode) async {
     try {
-      DocumentSnapshot docSnapshot = await firestore.collection(roomCode).doc("static").get();
+      DocumentSnapshot docSnapshot =
+          await firestore.collection(roomCode).doc("static").get();
       if (docSnapshot.exists) {
         return docSnapshot.data() as Map<String, dynamic>;
       } else {
@@ -53,9 +52,11 @@ class DbCommunicator {
   }
 
   /// Fetches the state data from a specified room.
-  Future<Map<String, dynamic>?> getStateData(FirebaseFirestore firestore, String roomCode) async {
+  Future<Map<String, dynamic>?> getStateData(
+      FirebaseFirestore firestore, String roomCode) async {
     try {
-      DocumentSnapshot docSnapshot = await firestore.collection(roomCode).doc("state").get();
+      DocumentSnapshot docSnapshot =
+          await firestore.collection(roomCode).doc("state").get();
       if (docSnapshot.exists) {
         return docSnapshot.data() as Map<String, dynamic>;
       } else {
@@ -68,43 +69,50 @@ class DbCommunicator {
     }
   }
 
-  Future<List<Player>?> getResults(FirebaseFirestore firestore, String roomCode) async {
+  Future<List<Player>?> getResults(
+      FirebaseFirestore firestore, String roomCode) async {
     try {
-      DocumentSnapshot docSnapshot = await firestore.collection(roomCode).doc("state").get();
-      if (docSnapshot.exists && docSnapshot.data() != null) {
-        var data = docSnapshot.data() as Map<String, dynamic>;
-        if (data.containsKey('players') && data['players'] is List) {
-          List<Player> players = data['players'];
-          players.sort((a, b) => b.points.compareTo(a.points));
-          return players;
-        } else {
-          print("No players data found in the room $roomCode");
-          return null;
-        }
-      } else {
-        print("State document does not exist in room $roomCode");
-        return null;
-      }
+      // Query the 'players' subcollection
+      QuerySnapshot playersSnapshot = await firestore
+          .collection(roomCode)
+          .doc("state")
+          .collection("players")
+          .get();
+
+      // Convert the query results to a list of Player objects
+
+      List<Player> players =
+          playersSnapshot.docs.map((doc) => Player.fromSnapshot(doc, doc.id)).toList();
+      // Sort the players by points
+      players.sort((a, b) => b.points.compareTo(a.points));
+      return players.isNotEmpty ? players : null;
     } catch (e) {
       print("Error fetching players data: $e");
       return null;
     }
   }
 
-  Future<void> addPlayer(FirebaseFirestore firestore, String roomCode, Player player) async{
-    try{
-      await firestore.collection(roomCode).doc("state").collection("players").doc(player.name).set({
-        "points" : player.points,
-        "guess" : player.guess,
-        "avatar" : player.avatar
+  Future<void> addPlayer(
+      FirebaseFirestore firestore, String roomCode, Player player) async {
+    try {
+      await firestore
+          .collection(roomCode)
+          .doc("state")
+          .collection("players")
+          .doc(player.name)
+          .set({
+        "points": player.points,
+        "guess": player.guess,
+        "avatar": player.avatar
       });
-    } catch (e){
+    } catch (e) {
       print("Error adding player: $e");
       return null;
     }
   }
 
-  Future<void> incrementRound(FirebaseFirestore firestore, String roomCode) async {
+  Future<void> incrementRound(
+      FirebaseFirestore firestore, String roomCode) async {
     try {
       // Reference to the document
       DocumentReference stateDoc = firestore.collection(roomCode).doc("state");
@@ -113,7 +121,8 @@ class DbCommunicator {
       DocumentSnapshot stateSnapshot = await stateDoc.get();
       if (stateSnapshot.exists && stateSnapshot.data() != null) {
         // Extract the data in a safe way
-        Map<String, dynamic> data = stateSnapshot.data() as Map<String, dynamic>;
+        Map<String, dynamic> data =
+            stateSnapshot.data() as Map<String, dynamic>;
         int currentRound = data.containsKey('round') ? data['round'] as int : 0;
 
         // Increment and update the round value
@@ -127,7 +136,8 @@ class DbCommunicator {
     }
   }
 
-  Future<void> incrementVoted(FirebaseFirestore firestore, String roomCode) async {
+  Future<void> incrementVoted(
+      FirebaseFirestore firestore, String roomCode) async {
     try {
       // Reference to the document
       DocumentReference stateDoc = firestore.collection(roomCode).doc("state");
@@ -136,7 +146,8 @@ class DbCommunicator {
       DocumentSnapshot stateSnapshot = await stateDoc.get();
       if (stateSnapshot.exists && stateSnapshot.data() != null) {
         // Extract the data in a safe way
-        Map<String, dynamic> data = stateSnapshot.data() as Map<String, dynamic>;
+        Map<String, dynamic> data =
+            stateSnapshot.data() as Map<String, dynamic>;
         int currentVote = data.containsKey('voted') ? data['voted'] as int : 0;
 
         // Increment and update the round value
@@ -158,7 +169,6 @@ class DbCommunicator {
       // Get the document
       DocumentSnapshot stateSnapshot = await stateDoc.get();
       if (stateSnapshot.exists && stateSnapshot.data() != null) {
-
         // Increment and update the round value
         await stateDoc.update({"voted": 0});
       } else {
@@ -178,7 +188,6 @@ class DbCommunicator {
       // Get the document
       DocumentSnapshot stateSnapshot = await stateDoc.get();
       if (stateSnapshot.exists && stateSnapshot.data() != null) {
-
         // Increment and update the round value
         await stateDoc.update({"round": 0});
       } else {
@@ -189,6 +198,4 @@ class DbCommunicator {
       return null; // Consider using 'Future.error(e)' to propagate the error.
     }
   }
-
 }
-
