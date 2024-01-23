@@ -67,7 +67,7 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
             SizedBox(height: 70)
           ],
         )
-        );
+      );
   }
 
   Future<void> _pickRandomImage() async {
@@ -81,7 +81,7 @@ class _ImagePickerPageState extends State<ImagePickerPage> {
       images = images.take(numOfImagesWanted).toList();
       setState(() {});
     } else {
-      Text("Permission not granted");
+      // todo add error handling
       print("Permission not granted");
     }
   }
