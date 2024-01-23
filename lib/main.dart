@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
-import 'package:photo_roulette/pages/home.dart';
-import 'package:photo_roulette/pages/round.dart';
-import 'package:photo_roulette/pages/resultsPanel.dart';
+import 'package:photo_roulette/pages/imagePickerPage.dart';
 import 'package:photo_roulette/themes/themes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
 
@@ -41,7 +37,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Photo Roulette",
-        home: const RoundScreen(gamePin: "123"),
+        //home: const RoundScreen(gamePin: "123"),
+        home: const ImagePickerPage(),
         theme: mainTheme
     );
   }
