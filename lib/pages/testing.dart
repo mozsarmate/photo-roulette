@@ -3,7 +3,7 @@ import 'home.dart';
 import 'imagePickerPage.dart';
 import 'leaderboard.dart';
 import 'lobby.dart';
-import 'resultsPanel.dart';
+import 'resultsPage.dart';
 import 'round.dart';
 
 class Testing extends StatelessWidget{
@@ -40,7 +40,7 @@ class Testing extends StatelessWidget{
           ElevatedButton(
             child: const Text("Round Results"),
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>const ResultsPanel()));//will need game pin
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const ResultsPage()));//will need game pin
             },
           ),
           ElevatedButton(

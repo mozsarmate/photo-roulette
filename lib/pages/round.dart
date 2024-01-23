@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:photo_roulette/components/backdropFilter.dart';
-import 'package:photo_roulette/pages/resultsPanel.dart';
+import 'package:photo_roulette/pages/resultsPage.dart';
 
 import '../components/votePanel.dart';
 import '../models/image_model.dart';
@@ -84,7 +84,7 @@ class _RoundState extends State<RoundScreen> {
                       child: (data['answer'])
                           ? VotePanel(
                               names: ["Blatin", "Johannes", "Lukas"])
-                          : const ResultsPanel()),
+                          : const ResultsPage()),
                 ]
             )
         );
