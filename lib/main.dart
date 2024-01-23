@@ -57,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final ImagePicker _imagePicker = ImagePicker();
 
+  final maxAgeOfImage = 500;
   final numOfImagesWanted = 16;
   var numOfImagesGot = 2;
 
@@ -100,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (status.hasAccess) {
       // Permission is granted, proceed to access images
-      images = await PhotoManager.getAssetListRange(start: 0, end: 500);
+      images = await PhotoManager.getAssetListRange(start: 0, end: maxAgeOfImage);
       images.shuffle();
       numOfImagesGot = min(images.length, numOfImagesWanted);
       images = images.take(numOfImagesWanted).toList();
