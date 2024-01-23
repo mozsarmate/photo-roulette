@@ -8,15 +8,18 @@ import 'package:photo_roulette/pages/lobby.dart';
 import '../components/mainAppBar.dart';
 
 class GameCreation extends StatefulWidget {
-  const GameCreation({super.key});
+  const GameCreation({required this.name,super.key});
+  final name;
 
   @override
-  _GameCreationState createState() => _GameCreationState();
+  _GameCreationState createState() => _GameCreationState(name);
 }
 
 class _GameCreationState extends State<GameCreation> {
+  final String name;
   final DbCommunicator db = new DbCommunicator();
   final FirebaseFirestore f = FirebaseFirestore.instance;
+  _GameCreationState(this.name);
 
   double minNumOfRounds = 5;
   double maxNumOfRounds = 30;
@@ -106,8 +109,7 @@ class _GameCreationState extends State<GameCreation> {
                                   MaterialPageRoute(
                                       builder: (BuildContext context) => LobbyScreen(
                                           gamePin: code,
-                                          name: "test",
-                                          key: null)
+                                          name: name)
                                   )
                               );
                             }
