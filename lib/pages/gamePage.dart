@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:photo_roulette/components/backdropFilter.dart';
-import 'package:photo_roulette/pages/resultsPanel.dart';
+import 'package:photo_roulette/pages/resultsPage.dart';
 
 import '../components/votePanel.dart';
 import '../models/image_model.dart';
@@ -77,7 +77,7 @@ class _GameState extends State<GamePage>{
         final data = snapshot.data!;
         //final List<String> names = data["names"].cast<String>();
         return (data['revealed'])
-            ? const ResultsPanel()
+            ? const ResultsPage()
             : VotePanel(
           names: const ["Blatin", "Johannes", "Lukas", "asd"], image: getImageUrl(data['round']), round:4, max:images.length, reveal: revealAns);
       },

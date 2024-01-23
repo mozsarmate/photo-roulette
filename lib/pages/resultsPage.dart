@@ -37,7 +37,7 @@ class ResultsPage extends StatelessWidget {
     return Scaffold(
         body: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage("assets/images/main_background.jpg"))
+            image: DecorationImage(image: AssetImage("assets/images/main_background.jpg"), fit: BoxFit.cover)
           ),
             child: Center(
               child: Container(
