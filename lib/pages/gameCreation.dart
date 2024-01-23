@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:photo_roulette/components/button.dart';
+import 'package:photo_roulette/models/communication.dart';
+import 'package:photo_roulette/pages/lobby.dart';
 
 import '../components/mainAppBar.dart';
 
@@ -11,6 +15,8 @@ class GameCreation extends StatefulWidget {
 }
 
 class _GameCreationState extends State<GameCreation> {
+  final DbCommunicator db = new DbCommunicator();
+  final FirebaseFirestore f = FirebaseFirestore.instance;
 
   double minNumOfRounds = 5;
   double maxNumOfRounds = 30;
@@ -20,6 +26,8 @@ class _GameCreationState extends State<GameCreation> {
 
   double numOfRoundsSlider = 7;
   double timePerRoundSlider = 12;
+
+  bool showLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +60,8 @@ class _GameCreationState extends State<GameCreation> {
                       Slider(
                         min: minNumOfRounds,
                         max: maxNumOfRounds,
-                        divisions: maxNumOfRounds.toInt() - minNumOfRounds.toInt(),
+                        divisions:
+                            maxNumOfRounds.toInt() - minNumOfRounds.toInt(),
                         label: numOfRoundsSlider.round().toString(),
                         value: numOfRoundsSlider,
                         onChanged: (double value) {
@@ -67,8 +76,11 @@ class _GameCreationState extends State<GameCreation> {
                       Slider(
                         min: minTimePerRound,
                         max: maxTimePerRound,
-                        divisions: ((maxTimePerRound.toInt() - minTimePerRound.toInt())/5).toInt(),
-                        label: timePerRoundSlider.round().toString(),
+                        divisions: ((maxTimePerRound.toInt() -
+                                    minTimePerRound.toInt()) /
+                                5)
+                            .toInt(),
+                        label: timePerRoundSlider.round().toString() + " sec",
                         value: timePerRoundSlider,
                         onChanged: (double value) {
                           HapticFeedback.vibrate();
@@ -77,6 +89,31 @@ class _GameCreationState extends State<GameCreation> {
                           });
                         },
                       ),
+                      Button(
+                          text: "Create lobby",
+                          isPrimary: true,
+                          action: () async {
+                            setState(() {
+                              showLoading = true;
+                            });
+                            String? code = await db.initRoom(
+                                f,
+                                numOfRoundsSlider.round(),
+                                timePerRoundSlider.round());
+                            if (code != null) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) => LobbyScreen(
+                                          gamePin: code,
+                                          name: "test",
+                                          key: null)
+                                  )
+                              );
+                            }
+                            //navigate to lobby
+                          }),
+                        (showLoading ? CircularProgressIndicator() : Container()),
                     ]),
               )),
             ],

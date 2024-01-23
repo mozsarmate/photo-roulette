@@ -11,7 +11,7 @@ class DbCommunicator {
 
   /// Initializes a room in Firestore with given structure.
   /// Returns a Future indicating the completion of the operation.
-  Future<void> initRoom(FirebaseFirestore firestore, int numOfRounds, int timePerRound) async {
+  Future<String?> initRoom(FirebaseFirestore firestore, int numOfRounds, int timePerRound) async {
     try {
       int code = _generateRoomCode();
       String room = code.toString();
@@ -24,10 +24,12 @@ class DbCommunicator {
 
       await firestore.collection(room).doc("static").set(staticData);
       await firestore.collection(room).doc("state").set(stateData);
+      return room;
     } catch (e) {
       print("Error initializing room: $e");
       // Consider how to handle the error. Maybe rethrow or return a status.
     }
+    return null;
   }
 
   /// Generates a fixed 4-digit room code.
