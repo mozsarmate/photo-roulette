@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
-import 'package:photo_roulette/pages/imagePickerPage.dart';
+import 'package:photo_roulette/pages/leaderboard.dart';
 import 'package:photo_roulette/themes/themes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,8 +37,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Photo Roulette",
         //home: const RoundScreen(gamePin: "123"),
-        home: const ImagePickerPage(),
-        theme: mainTheme
-    );
+        home: LeaderBoardPage(),
+        theme: mainTheme);
   }
 }
